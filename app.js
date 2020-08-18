@@ -1,6 +1,7 @@
 const express = require('express');
 const engines = require('consolidate');
 const app = express();
+const mongobd=require('mongobd');
 var http = require('http')
 var bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -12,19 +13,19 @@ app.use(express.static(publicDir));
 app.engine('hbs', engines.handlebars);
 app.set('views', './views');
 app.set('view engine', 'hbs');
-var MongoClient = require('mongodb').MongoClient;
+var MongoClient = mongobd.MongoClient;
 var url = "mongodb+srv://dbDemo:Khanh260797@cluster0.zzpze.mongodb.net/ToyStore";
 
-// app.get('/', async function (req, res) {
-//     let client = await MongoClient.connect(url);
-//     let dbo = client.db("ToyStore");
-//     let result = await dbo.collection("Users").find({}).toArray();
-//     let product = await dbo.collection("Products").find({}).toArray();
-//     let category = await dbo.collection("Category").find({}).toArray();
-//     console.log(result)
-//     console.log(product)
-//     res.render('index', { model: result, list: product, category: category });
-// })
+app.get('/', async function (req, res) {
+    let client = await MongoClient.connect(url);
+    let dbo = client.db("ToyStore");
+    let result = await dbo.collection("Users").find({}).toArray();
+    let product = await dbo.collection("Products").find({}).toArray();
+    let category = await dbo.collection("Category").find({}).toArray();
+    console.log(result)
+    console.log(product)
+    res.render('index', { model: result, list: product, category: category });
+})
 
 // app.get('/category', (req, res) => {
 //     res.render('category');
