@@ -12,14 +12,24 @@ app.use(express.static(publicDir));
 app.engine('hbs', engines.handlebars);
 app.set('views', './views');
 app.set('view engine', 'hbs');
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb+srv://dbDemo:Khanh260797@cluster0.zzpze.mongodb.net/ToyStore";
 
+app.get('/', async function (req, res) {
+    let client = await MongoClient.connect(url);
+    let dbo = client.db("ToyStore");
+    let result = await dbo.collection("Users").find({}).toArray();
+    let product = await dbo.collection("Products").find({}).toArray();
+    let category = await dbo.collection("Category").find({}).toArray();
+    console.log(result)
+    console.log(product)
+    res.render('index', { model: result, list: product, category: category });
+})
 
 app.get('/category', (req, res) => {
     res.render('category');
 })
 
-var MongoClient = require('mongodb').MongoClient;
-var url = "mongodb+srv://dbDemo:Khanh260797@cluster0.zzpze.mongodb.net/ToyStore";
 
 app.get('/register', function (req, res) {
     res.render('register');
@@ -123,20 +133,7 @@ app.post('/addCategory', async (req, res) => {
     res.redirect('/');//
 })
 
-app.get('/', async function (req, res) {
-    let client = await MongoClient.connect(url);
-    let dbo = client.db("ToyStore");
-    let result = await dbo.collection("Users").find({}).toArray();
-    let product = await dbo.collection("Products").find({}).toArray();
-    let category = await dbo.collection("Category").find({}).toArray();
-    console.log(result)
-    console.log(product)
-    res.render('index', { model: result, list: product, category: category });
-    // res.render('showData',{model:result});
-})
-// app.get('/insert', (req,res)=>{
-//     res.render('insert');
-// })
+
 app.get('/insert', async function (req, res) {
     let client = await MongoClient.connect(url);
     let dbo = client.db("ToyStore");
