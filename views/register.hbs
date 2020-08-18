@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <title>Register</title>
+    <script>
+        function checkForm() {
+            let inputName = document.getElementById('txtName').value;
+            if (inputName.trim().length == 0) {
+                // alert('Name can not be empty');
+                document.getElementById('lblNameError').innerText = "Name can not be empty";
+                return false;
+            }
+        }
+    </script>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row">
+              <div class="col-sm-3 ">
+              </div>
+            <div class="col-sm-6 " style="margin-top:20%">
+                <div>
+                    <form action="/doRegister" method="post">
+                    <div class="form-group">
+                        <label>User Name</label>
+                        <label id="lblNameError" style="color:red"></label>
+                        <input name="txtName" id="" type="text" class="form-control" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                        <label>Email address</label>
+                        <input name="txtEmail" id="" type="email" class="form-control" placeholder="Enter email">
+                        <small class="form-text text-muted">We'll never share your email with anyone else.</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"
+                            type="password" name="txtPassword">
+                    </div>
+                    <button type="submit" class="btn btn-primary" value="Register" action="/doRegister">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
