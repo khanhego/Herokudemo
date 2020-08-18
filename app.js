@@ -1,7 +1,7 @@
 const express = require('express');
 const engines = require('consolidate');
 const app = express();
-const mongobd=require('mongobd');
+const mongodb=require('mongodb');
 var http = require('http')
 var bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -13,7 +13,7 @@ app.use(express.static(publicDir));
 app.engine('hbs', engines.handlebars);
 app.set('views', './views');
 app.set('view engine', 'hbs');
-var MongoClient = mongobd.MongoClient;
+var MongoClient = mongodb.MongoClient;
 var url = "mongodb+srv://dbDemo:Khanh260797@cluster0.zzpze.mongodb.net/ToyStore";
 
 app.get('/', async function (req, res) {
