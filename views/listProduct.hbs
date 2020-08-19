@@ -15,30 +15,7 @@
     <br>
     <a href="/insert"> Add Product </a>
     <br>
-    <a href="/category"> Add Category </a>
     <br>
-    <a href="/register"> Add User </a>
-    <br>
-    <a href="/listProduct"> List Product </a>
-    <br>
-    <a>List User</a>
-    <ul class="list-group">
-        {{#each model}}
-        <li class="list-group-item">
-            <a href="/remove?id={{_id}}">Delete</a>
-            <a href="/showDataUser?id={{_id}}">Update </a>
-            {{name}} </li>
-        {{/each}}
-    </ul>
-     <a>Category</a>
-    <ul class="list-group">
-        {{#each category}}
-        <li class="list-group-item">
-            <a href="/remove?id={{_id}}">Delete </a>
-            <a href="/filterCategory?name={{name}}">{{name}}</a>
-        </li>
-        {{/each}}
-    </ul>
     <a>List Product</a>
     {{!-- <form action= "/search?name" method="get">
     <div class="md-form active-pink active-pink-2 mb-3 mt-0">
@@ -57,7 +34,7 @@
             {{name}} / {{category}} /{{price}} </li>
         {{/each}}
     </ul>
-   
+
 </body>
 
 </html>
