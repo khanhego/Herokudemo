@@ -1,7 +1,7 @@
 const express = require('express');
 const engines = require('consolidate');
 const app = express();
-const mongodb=require('mongodb');
+const mongodb = require('mongodb');
 var http = require('http')
 var bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -45,7 +45,9 @@ app.get('/register', function (req, res) {
 app.get('/edit', function (req, res) {
     res.render('edit');
 })
-
+app.get('/alter', function (req, res) {
+    res.render('alter');
+})
 app.get('/showDataUser', async function (req, res) {
     let id = req.query.id;
     console.log("ahiiiiiiiiii", req.query)
@@ -79,11 +81,11 @@ app.get('/filterCategory', async function (req, res) {
 //     // res.render();
 // })
 app.get('/search', async function (req, res) {
-    let info= req.query.info;
+    let info = req.query.info;
     //var ObjectID = require('mongodb').ObjectID;
     let client = await MongoClient.connect(url);
     let dbo = client.db("ToyStore");
-    let result=await dbo.collection("Products").find({name: new RegExp("^"+info,'i')}).toArray();
+    let result = await dbo.collection("Products").find({ name: new RegExp("^" + info, 'i') }).toArray();
     // let result = await dbo.collection("Products").findOne({name : /.*d.*/i});;
     console.log("data search123", result)
     res.render('listProduct', { list: result });
@@ -125,7 +127,7 @@ app.get('/updateProduct', async (req, res) => {
     let price = req.query.price;
     let category = req.query.category;
     console.log("text", inputName)
-    let updateInfo = { name: inputName, price:price, category:category};
+    let updateInfo = { name: inputName, price: price, category: category };
     let client = await MongoClient.connect(url);
     let dbo = client.db("ToyStore");
     await dbo.collection("Products").updateOne({ _id: ObjectID(id) }, { $set: updateInfo });
@@ -135,14 +137,56 @@ app.get('/updateProduct', async (req, res) => {
 })
 
 app.post('/addProduct', async (req, res) => {
+
+    // if(inputName.charAt(0).match(/[a-z]/i)&&!isNaN(inputName.slice(-1))){
+    //     console.log("success")
+    //     let inputPrice = req.body.txtPrice;
+    //     let category = req.body.txtCategory;
+    //     let newProduct = { name: inputName, price: inputPrice, category: category };
+    //     let client = await MongoClient.connect(url);
+    //     let dbo = client.db("ToyStore");
+    //     await dbo.collection("Products").insertOne(newProduct);
+    //     res.redirect('/');//
+    // }
+    // else{
+    //     res.render('alter')
+    // }
     let inputName = req.body.txtName;
-    let inputPrice = req.body.txtPrice;
-    let category = req.body.txtCategory;
-    let newProduct = { name: inputName, price: inputPrice, category: category };
-    let client = await MongoClient.connect(url);
-    let dbo = client.db("ToyStore");
-    await dbo.collection("Products").insertOne(newProduct);
-    res.redirect('/');//
+    if (isInteger(inputName.slice(-2))) {
+        let inputPrice = req.body.txtPrice;
+        let category = req.body.txtCategory;
+        let newProduct = { name: inputName, price: inputPrice, category: category };
+        let client = await MongoClient.connect(url);
+        let dbo = client.db("ToyStore");
+        await dbo.collection("Products").insertOne(newProduct);
+        res.redirect('/');//
+    }
+    else {
+        console.log("fail")
+    }
+
+})
+
+app.post('/add', async (req, res) => {
+    let inputName = req.body.txtName;
+    console.log("11111111111111111",req.body)
+    if (inputName.slice(-1) >= '0' && inputName.slice(-1) <= '9' && inputName.slice(-2) >= '0' && inputName.slice(-2) <= '9') {
+        let inputPrice = req.body.txtPrice;
+        let newCake = { name: inputName, price: inputPrice };
+        let client = await MongoClient.connect(url);
+        let dbo = client.db("Store");
+        await dbo.collection("Cake").insertOne(newCake);
+        res.redirect('/');
+    }
+    else {
+        req.render('alert');
+    }
+    let Array =[]
+    result.map(item=>{
+        if(item.price<=100){
+            Array.push(item)
+        }
+    })
 })
 
 app.post('/addCategory', async (req, res) => {
