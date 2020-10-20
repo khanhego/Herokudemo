@@ -84,16 +84,16 @@ app.get('/filterCategory', async function (req, res) {
 // app.get('/search', function (req, res) {
 //     // res.render();
 // })
-app.get('/search', async function (req, res) {
-    let info = req.query.info;
-    //var ObjectID = require('mongodb').ObjectID;
-    let client = await MongoClient.connect(url);
-    let dbo = client.db("ToyStore");
-    let result = await dbo.collection("Products").find({ name: new RegExp("^" + info, 'i') }).toArray();
-    // let result = await dbo.collection("Products").findOne({name : /.*d.*/i});;
-    console.log("data search123", result)
-    res.render('listProduct', { list: result });
-})
+// app.get('/search', async function (req, res) {
+//     let info = req.query.info;
+//     //var ObjectID = require('mongodb').ObjectID;
+//     let client = await MongoClient.connect(url);
+//     let dbo = client.db("ToyStore");
+//     let result = await dbo.collection("Products").find({ name: new RegExp("^" + info, 'i') }).toArray();
+//     // let result = await dbo.collection("Products").findOne({name : /.*d.*/i});;
+//     console.log("data search123", result)
+//     res.render('listProduct', { list: result });
+// })
 
 app.post('/doRegister', async (req, res) => {
     let inputName = req.body.txtName;
