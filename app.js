@@ -26,6 +26,12 @@ app.get('/', async function (req, res) {
     console.log(product)
     res.render('index', { model: result, list: product, category: category });
 })
+app.get('/categories', async (req, res) => {
+    let client = await MongoClient.connect(url);
+    let dbo = client.db("ToyStore");
+    let category = await dbo.collection("Category").find({}).toArray();
+    return category
+})
 
 app.get('/listProduct', async function (req, res) {
     let client = await MongoClient.connect(url);
@@ -96,7 +102,6 @@ app.post('/doRegister', async (req, res) => {
     let inputEmail = req.body.txtEmail;
     let inputPassword = req.body.txtPassword;
     let newAccount = { name: inputName, email: inputEmail, pass: inputPassword };
-
     let client = await MongoClient.connect(url);
     let dbo = client.db("ToyStore");
     await dbo.collection("Users").insertOne(newAccount); y
