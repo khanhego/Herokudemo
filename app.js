@@ -51,9 +51,7 @@ app.get('/register', function (req, res) {
 app.get('/edit', function (req, res) {
     res.render('edit');
 })
-app.get('/alter', function (req, res) {
-    res.render('alter');
-})
+
 app.get('/showDataUser', async function (req, res) {
     let id = req.query.id;
     console.log("ahiiiiiiiiii", req.query)
@@ -143,55 +141,30 @@ app.get('/updateProduct', async (req, res) => {
 
 app.post('/addProduct', async (req, res) => {
 
-    // if(inputName.charAt(0).match(/[a-z]/i)&&!isNaN(inputName.slice(-1))){
-    //     console.log("success")
-    //     let inputPrice = req.body.txtPrice;
-    //     let category = req.body.txtCategory;
-    //     let newProduct = { name: inputName, price: inputPrice, category: category };
-    //     let client = await MongoClient.connect(url);
-    //     let dbo = client.db("ToyStore");
-    //     await dbo.collection("Products").insertOne(newProduct);
-    //     res.redirect('/');//
-    // }
-    // else{
-    //     res.render('alter')
-    // }
+  
     let inputName = req.body.txtName;
-    if (isInteger(inputName.slice(-2))) {
-        let inputPrice = req.body.txtPrice;
-        let category = req.body.txtCategory;
-        let newProduct = { name: inputName, price: inputPrice, category: category };
-        let client = await MongoClient.connect(url);
-        let dbo = client.db("ToyStore");
-        await dbo.collection("Products").insertOne(newProduct);
-        res.redirect('/');//
-    }
-    else {
-        console.log("fail")
-    }
+    let inputPrice = req.body.txtPrice;
+    let category = req.body.txtCategory;
+    let newProduct = { name: inputName, price: inputPrice, category: category };
+    let client = await MongoClient.connect(url);
+    let dbo = client.db("ToyStore");
+    await dbo.collection("Products").insertOne(newProduct);
+    res.redirect('/');//
 
+ 
 })
 
 app.post('/add', async (req, res) => {
     let inputName = req.body.txtName;
     console.log("11111111111111111",req.body)
-    if (inputName.slice(-1) >= '0' && inputName.slice(-1) <= '9' && inputName.slice(-2) >= '0' && inputName.slice(-2) <= '9') {
-        let inputPrice = req.body.txtPrice;
+    let inputPrice = req.body.txtPrice;
         let newCake = { name: inputName, price: inputPrice };
         let client = await MongoClient.connect(url);
         let dbo = client.db("Store");
         await dbo.collection("Cake").insertOne(newCake);
         res.redirect('/');
-    }
-    else {
-        req.render('alert');
-    }
-    let Array =[]
-    result.map(item=>{
-        if(item.price<=100){
-            Array.push(item)
-        }
-    })
+   
+    
 })
 
 app.post('/addCategory', async (req, res) => {
