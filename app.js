@@ -147,7 +147,8 @@ app.post('/addProduct', async (req, res) => {
     let newProduct = { name: inputName, price: inputPrice, category: category };
     let client = await MongoClient.connect(url);
     if (inputPrice>100) {
-        console.log('1')
+        console.log('abbc')
+        
         let dbo = client.db("ToyStore");
         await dbo.collection("Products").insertOne(newProduct);
         res.redirect('/');//
