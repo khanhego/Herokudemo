@@ -22,8 +22,8 @@ app.get('/', async function (req, res) {
     let result = await dbo.collection("Users").find({}).toArray();
     let product = await dbo.collection("Products").find({}).toArray();
     let category = await dbo.collection("Category").find({}).toArray();
-    console.log(result)
-    console.log(product)
+    // console.log(result)
+    // console.log(product)
     res.render('index', { model: result, list: product, category: category });
 })
 app.get('/categories', async (req, res) => {
@@ -140,31 +140,36 @@ app.get('/updateProduct', async (req, res) => {
 })
 
 app.post('/addProduct', async (req, res) => {
-
-  
     let inputName = req.body.txtName;
+    console.log(req.body.txtName)
     let inputPrice = req.body.txtPrice;
     let category = req.body.txtCategory;
     let newProduct = { name: inputName, price: inputPrice, category: category };
     let client = await MongoClient.connect(url);
-    let dbo = client.db("ToyStore");
-    await dbo.collection("Products").insertOne(newProduct);
-    res.redirect('/');//
+    if (inputPrice>100) {
+        console.log('1')
+        let dbo = client.db("ToyStore");
+        await dbo.collection("Products").insertOne(newProduct);
+        res.redirect('/');//
+    }
+    else{
+        let errorABC= {message : 'Giá không được nhỏ hơn 100'}
+        res.render('insert', { error: errorABC });
+    }
+   
 
- 
 })
 
 app.post('/add', async (req, res) => {
     let inputName = req.body.txtName;
-    console.log("11111111111111111",req.body)
     let inputPrice = req.body.txtPrice;
-        let newCake = { name: inputName, price: inputPrice };
-        let client = await MongoClient.connect(url);
-        let dbo = client.db("Store");
-        await dbo.collection("Cake").insertOne(newCake);
-        res.redirect('/');
-   
-    
+    let newCake = { name: inputName, price: inputPrice };
+    let client = await MongoClient.connect(url);
+    let dbo = client.db("Store");
+    await dbo.collection("Cake").insertOne(newCake);
+    res.redirect('/');
+
+
 })
 
 app.post('/addCategory', async (req, res) => {
